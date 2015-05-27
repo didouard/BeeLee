@@ -28,12 +28,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * Fragment that shows details of a certain user.
- */
+
 public class RoomFragment extends BaseFragment implements RoomView {
 
-  private static final String ARGUMENT_KEY_ROOM_ID = "org.android10.ARGUMENT_USER_ID";
+  private static final String ARGUMENT_KEY_ROOM_ID = "org.android10.ARGUMENT_ROOM_ID";
 
   private String roomId;
 
@@ -68,10 +66,6 @@ public class RoomFragment extends BaseFragment implements RoomView {
     View fragmentView = inflater.inflate(R.layout.fragment_room, container, false);
     ButterKnife.inject(this, fragmentView);
 
-    mMessages = new ArrayList<Message>();
-    mAdapter = new RoomAdapter(this.getActivity(), roomPresenter, mMessages);
-    lvChat.setAdapter(mAdapter);
-
     return fragmentView;
   }
 
@@ -96,10 +90,13 @@ public class RoomFragment extends BaseFragment implements RoomView {
   }
 
   private void initialize() {
-    this.getComponent(RoomComponent.class).inject(this);
-    this.roomPresenter.setView(this);
-    this.roomId = getArguments().getString(ARGUMENT_KEY_ROOM_ID);
-    this.roomPresenter.initialize(this.roomId);
+    getComponent(RoomComponent.class).inject(this);
+    roomPresenter.setView(this);
+    roomId = getArguments().getString(ARGUMENT_KEY_ROOM_ID);
+    roomPresenter.initialize(this.roomId);
+    mMessages = new ArrayList<Message>();
+    mAdapter = new RoomAdapter(this.getActivity(), roomPresenter, mMessages);
+    lvChat.setAdapter(mAdapter);
   }
 
   @Override public void renderMessages(List<Message> messages) {
@@ -107,6 +104,7 @@ public class RoomFragment extends BaseFragment implements RoomView {
     mMessages.addAll(messages);
     mAdapter.notifyDataSetChanged();
     lvChat.invalidate();
+    getActivity().setTitle(getString(R.string.activity_title_room));
   }
 
   @Override public void showLoading() {
@@ -133,15 +131,6 @@ public class RoomFragment extends BaseFragment implements RoomView {
 
   @Override public Context getContext() {
     return getActivity().getApplicationContext();
-  }
-
-  /**
-   * Loads all users.
-   */
-  private void loadUserDetails() {
-    if (this.roomPresenter != null) {
-      this.roomPresenter.initialize(this.roomId);
-    }
   }
 
   @OnClick(R.id.btSend)

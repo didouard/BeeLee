@@ -9,7 +9,7 @@ public interface IRoomListModel {
     void setRoomList(List<com.fernandocejas.android10.sample.presentation.db.Room> rooms);
     List<com.fernandocejas.android10.sample.presentation.db.Room> getRoomList();
 
-    void fetchRooms(final RoomList.FetchRoomListModelCallback callback);
-    void createRoom(String name, final RoomList.CreateRoomListModelCallback callback);
+    void fetchRooms(final RoomListModel.FetchRoomListModelCallback callback);
+    void createRoom(String name, final RoomListModel.CreateRoomListModelCallback callback);
     void deleteRoom(com.fernandocejas.android10.sample.presentation.db.Room room);
 }

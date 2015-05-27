@@ -20,12 +20,15 @@ import android.util.Log;
 
 
 import com.fernandocejas.android10.sample.presentation.db.Message;
-import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.fernandocejas.android10.sample.presentation.db.User;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 
 import com.fernandocejas.android10.sample.presentation.model.IRoomModel;
-import com.fernandocejas.android10.sample.presentation.model.RoomList;
+import com.fernandocejas.android10.sample.presentation.model.IUsersModel;
+import com.fernandocejas.android10.sample.presentation.model.RoomModel;
+import com.fernandocejas.android10.sample.presentation.model.UsersModel;
 import com.fernandocejas.android10.sample.presentation.view.RoomView;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +45,22 @@ public class RoomPresenter implements Presenter {
   /** id used to retrieve user details */
   private String roomId;
   private IRoomModel roomModel;
+  private IUsersModel userModel;
 
   private RoomView viewDetailsView;
   private List<Message> messages;
 
-
+  private ParseUser parseUser;
   @Inject
   public RoomPresenter() {
     roomModel = new RoomModel();
+    userModel = new UsersModel();
     messages = new ArrayList<Message>();
+    parseUser = ParseUser.getCurrentUser();
+  }
+
+  public ParseUser getUser() {
+    return parseUser;
   }
 
   public void setView(@NonNull RoomView view) {
@@ -65,18 +75,12 @@ public class RoomPresenter implements Presenter {
 
   }
 
-  /**
-   * Initializes the presenter by start retrieving user details.
-   */
   public void initialize(String roomId) {
     this.roomId = roomId;
     this.roomModel.setId(roomId);
     this.loadMessage();
   }
 
-  /**
-   * Loads user details.
-   */
   private void loadMessage() {
     this.hideViewRetry();
     this.showViewLoading();
@@ -100,16 +104,16 @@ public class RoomPresenter implements Presenter {
   }
 
 
-  private void showUserDetailsInView(List<Message> messages) {
+  private void showMessagesInView(List<Message> messages) {
     this.viewDetailsView.renderMessages(messages);
   }
 
   public void sendMessage(final String message) {
-    roomModel.sendMessage(message, new RoomModel.RoomModelSendMessageCallback() {
+    roomModel.sendMessage(message, parseUser, new RoomModel.RoomModelSendMessageCallback() {
       @Override
       public void done(Message message) {
         messages.add(message);
-        showUserDetailsInView(messages);
+        showMessagesInView(messages);
       }
     });
   }
@@ -121,7 +125,7 @@ public class RoomPresenter implements Presenter {
         onCompleted();
         self.messages.clear();
         self.messages.addAll(messages);
-        showUserDetailsInView(self.messages);
+        showMessagesInView(self.messages);
       }
     });
   }

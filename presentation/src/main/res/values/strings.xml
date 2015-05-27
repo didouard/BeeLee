@@ -3,8 +3,8 @@
   <string name="app_name">BeeLee</string>
   <string name="url"></string>
 
-  <string name="activity_title_user_list">Room List</string>
-  <string name="activity_title_user_details">Room</string>
+  <string name="activity_title_room_list">Room List</string>
+  <string name="activity_title_room">Room</string>
 
   <string name="btn_text_load_data">Load data</string>
   <string name="btn_text_retry">Retry</string>

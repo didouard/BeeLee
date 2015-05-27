@@ -23,12 +23,12 @@
 
     <activity
         android:name=".view.activity.RoomListActivity"
-        android:label="@string/activity_title_user_list">
+        android:label="@string/activity_title_room_list">
     </activity>
 
     <activity
         android:name=".view.activity.RoomActivity"
-        android:label="@string/activity_title_user_details">
+        android:label="@string/activity_title_room">
     </activity>
 
     <activity

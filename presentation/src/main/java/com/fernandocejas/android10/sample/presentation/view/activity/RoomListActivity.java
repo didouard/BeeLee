@@ -7,6 +7,8 @@ package com.fernandocejas.android10.sample.presentation.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.db.Room;
@@ -14,6 +16,9 @@ import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerRoomComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.RoomComponent;
 import com.fernandocejas.android10.sample.presentation.view.fragment.RoomListFragment;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 /**
  * Activity that shows a list of Users.
@@ -33,6 +38,7 @@ public class RoomListActivity extends BaseActivity implements HasComponent<RoomC
     setContentView(R.layout.activity_room_list);
 
     this.initializeInjector();
+    setTitle(R.string.activity_title_room_list);
   }
 
   private void initializeInjector() {
@@ -47,7 +53,37 @@ public class RoomListActivity extends BaseActivity implements HasComponent<RoomC
   }
 
   @Override public void onRoomClicked(Room room) {
-    this.navigator.navigateToUserDetails(this, room.getObjectId());
+    this.navigator.navigateToRoom(this, room.getObjectId());
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_fragment_room_list, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+
+    if (id == R.id.action_disconnect) {
+      ParseUser.logOutInBackground(new LogOutCallback() {
+        @Override
+        public void done(ParseException e) {
+          finish();
+        }
+      });
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+
   }
 
 }

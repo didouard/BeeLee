@@ -6,9 +6,6 @@ package com.fernandocejas.android10.sample.presentation.view;
 
 import android.content.Context;
 
-/**
- * Interface representing a View that will use to load data.
- */
 public interface LoadDataView {
   /**
    * Show a view with a progress bar indicating a loading process.

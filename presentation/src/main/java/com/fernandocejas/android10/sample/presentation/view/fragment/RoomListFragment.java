@@ -169,8 +169,7 @@ public class RoomListFragment extends BaseFragment implements RoomListView {
             .setView(input)
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int which) {
-                String name = input.getText().toString();
-                roomListPresenter.createRoom(name);
+
               }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

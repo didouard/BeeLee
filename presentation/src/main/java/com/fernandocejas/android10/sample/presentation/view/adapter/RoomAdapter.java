@@ -46,8 +46,7 @@ public class RoomAdapter extends ArrayAdapter<Message> {
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
         // TODO : manage user here
-        //final boolean isMe = message.getUserId().equals(user.getObjectId());
-        final boolean isMe = true;
+        final boolean isMe = message.getUserId().equals(mRoomPresenter.getUser().getObjectId());
         // Show-hide image based on the logged-in user.
         // Display the profile image to the right for our user, left for other users.
         if (isMe) {
@@ -67,9 +66,8 @@ public class RoomAdapter extends ArrayAdapter<Message> {
         Picasso.with(getContext()).load(getProfileUrl(message.getUserId())).into(profileView);
         holder.body.setText(message.getBody());
         final TextView textView = isMe ? holder.tvRight : holder.tvLeft;
-        // TODO: manage user here
-        //textView.setText(user.getUsername());
-        textView.setText("username 1");
+
+        textView.setText(message.getUserId());
         return convertView;
     }
 

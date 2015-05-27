@@ -5,7 +5,6 @@
 package com.fernandocejas.android10.sample.presentation.view;
 
 import com.fernandocejas.android10.sample.presentation.db.Message;
-import com.fernandocejas.android10.sample.presentation.model.RoomList;
 
 import java.util.List;
 

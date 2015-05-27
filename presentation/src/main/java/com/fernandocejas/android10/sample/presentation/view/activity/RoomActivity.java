@@ -14,20 +14,17 @@ import com.fernandocejas.android10.sample.presentation.internal.di.components.Da
 import com.fernandocejas.android10.sample.presentation.internal.di.components.RoomComponent;
 import com.fernandocejas.android10.sample.presentation.view.fragment.RoomFragment;
 
-/**
- * Activity that shows details of a certain user.
- */
 public class RoomActivity extends BaseActivity implements HasComponent<RoomComponent> {
 
-  private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
-  private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
+  private static final String INTENT_EXTRA_PARAM_ROOM_ID = "org.android10.INTENT_PARAM_ROOM_ID";
+  private static final String INSTANCE_STATE_PARAM_ROOM_ID = "org.android10.STATE_PARAM_ROOM_ID";
 
   private String roomId;
   private RoomComponent roomComponent;
 
   public static Intent getCallingIntent(Context context, String objectId) {
     Intent callingIntent = new Intent(context, RoomActivity.class);
-    callingIntent.putExtra(INTENT_EXTRA_PARAM_USER_ID, objectId);
+    callingIntent.putExtra(INTENT_EXTRA_PARAM_ROOM_ID, objectId);
 
     return callingIntent;
   }
@@ -43,7 +40,7 @@ public class RoomActivity extends BaseActivity implements HasComponent<RoomCompo
 
   @Override protected void onSaveInstanceState(Bundle outState) {
     if (outState != null) {
-      outState.putString(INSTANCE_STATE_PARAM_USER_ID, this.roomId);
+      outState.putString(INSTANCE_STATE_PARAM_ROOM_ID, this.roomId);
     }
     super.onSaveInstanceState(outState);
   }
@@ -54,10 +51,10 @@ public class RoomActivity extends BaseActivity implements HasComponent<RoomCompo
   private void initializeActivity(Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       String empty = "";
-      this.roomId = getIntent().getStringExtra(INTENT_EXTRA_PARAM_USER_ID);
+      this.roomId = getIntent().getStringExtra(INTENT_EXTRA_PARAM_ROOM_ID);
       addFragment(R.id.fl_fragment, RoomFragment.newInstance(this.roomId));
     } else {
-      this.roomId = savedInstanceState.getString(INSTANCE_STATE_PARAM_USER_ID);
+      this.roomId = savedInstanceState.getString(INSTANCE_STATE_PARAM_ROOM_ID);
     }
   }
 
@@ -71,4 +68,7 @@ public class RoomActivity extends BaseActivity implements HasComponent<RoomCompo
   @Override public RoomComponent getComponent() {
     return roomComponent;
   }
+
+
+
 }

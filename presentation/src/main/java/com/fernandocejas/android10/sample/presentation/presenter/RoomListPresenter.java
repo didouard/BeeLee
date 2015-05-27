@@ -21,7 +21,7 @@ import android.util.Log;
 import com.fernandocejas.android10.sample.presentation.db.Room;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.model.IRoomListModel;
-import com.fernandocejas.android10.sample.presentation.model.RoomList;
+import com.fernandocejas.android10.sample.presentation.model.RoomListModel;
 import com.fernandocejas.android10.sample.presentation.view.RoomListView;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class RoomListPresenter  implements Presenter {
 
   @Inject
   public RoomListPresenter() {
-    roomListModel = new RoomList();
+    roomListModel = new RoomListModel();
     rooms = new ArrayList<Room>();
   }
 
@@ -50,11 +50,8 @@ public class RoomListPresenter  implements Presenter {
     this.viewListView = view;
   }
 
-  /**
-   * Initializes the presenter by start retrieving the user list.
-   */
   public void initialize() {
-    this.loadUserList();
+    this.loadRoomList();
   }
 
 
@@ -68,29 +65,26 @@ public class RoomListPresenter  implements Presenter {
 
   }
 
-  /**
-   * Loads all users.
-   */
-  private void loadUserList() {
+  private void loadRoomList() {
     this.hideViewRetry();
     this.showViewLoading();
-    this.getUserList();
+    this.getRoomList();
   }
 
   public void refreshRooms() {
-    roomListModel.fetchRooms(new RoomList.FetchRoomListModelCallback() {
+    roomListModel.fetchRooms(new RoomListModel.FetchRoomListModelCallback() {
       @Override
       public void done(List<Room> rooms) {
         onCompleted();
         self.rooms.clear();
         self.rooms.addAll(rooms);
-        self.showUsersCollectionInView(rooms);
+        self.showRoomsCollectionInView(rooms);
       }
     });
   }
 
   public void createRoom(String name) {
-    roomListModel.createRoom(name, new RoomList.CreateRoomListModelCallback() {
+    roomListModel.createRoom(name, new RoomListModel.CreateRoomListModelCallback() {
       @Override
       public void done(Room room) {
         self.rooms.add(room);
@@ -120,11 +114,11 @@ public class RoomListPresenter  implements Presenter {
   }
 
 
-  private void showUsersCollectionInView(List<Room> rooms) {
+  private void showRoomsCollectionInView(List<Room> rooms) {
     this.viewListView.renderRoomList(rooms);
   }
 
-  private void getUserList() {
+  private void getRoomList() {
     this.refreshRooms();
   }
 
@@ -137,8 +131,4 @@ public class RoomListPresenter  implements Presenter {
     Log.e("beelee", e.getMessage());
     this.showViewRetry();
   }
-
-//  @Override public void onNext(List<RoomList> users) {
-//    this.showUsersCollectionInView(users);
-//  }
 }

@@ -33,11 +33,6 @@ public class Navigator {
     //empty
   }
 
-  /**
-   * Goes to the user list screen.
-   *
-   * @param context A Context needed to open the destiny activity.
-   */
   public void navigateToRoomList(Context context) {
     if (context != null) {
       Intent intentToLaunch = RoomListActivity.getCallingIntent(context);
@@ -45,12 +40,7 @@ public class Navigator {
     }
   }
 
-  /**
-   * Goes to the user details screen.
-   *
-   * @param context A Context needed to open the destiny activity.
-   */
-  public void navigateToUserDetails(Context context, String roomId) {
+  public void navigateToRoom(Context context, String roomId) {
     if (context != null) {
       Intent intentToLaunch = RoomActivity.getCallingIntent(context, roomId);
       context.startActivity(intentToLaunch);

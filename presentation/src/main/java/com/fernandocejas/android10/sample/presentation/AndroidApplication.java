@@ -19,6 +19,7 @@ import android.app.Application;
 
 import com.fernandocejas.android10.sample.presentation.db.Message;
 import com.fernandocejas.android10.sample.presentation.db.Room;
+import com.fernandocejas.android10.sample.presentation.db.User;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
@@ -43,12 +44,14 @@ public class AndroidApplication extends Application {
     this.applicationComponent = DaggerApplicationComponent.builder()
         .applicationModule(new ApplicationModule(this))
         .build();
+
   }
 
   private void initParse() {
     Parse.enableLocalDatastore(this);
     ParseObject.registerSubclass(Room.class);
     ParseObject.registerSubclass(Message.class);
+    ParseObject.registerSubclass(User.class);
     Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
   }
 

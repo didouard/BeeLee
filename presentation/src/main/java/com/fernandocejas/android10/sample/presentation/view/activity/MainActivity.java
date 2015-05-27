@@ -1,5 +1,6 @@
 package com.fernandocejas.android10.sample.presentation.view.activity;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,7 +17,6 @@ import com.parse.ui.ParseLoginBuilder;
 public class MainActivity extends BaseActivity {
 
   private ParseLoginBuilder parseLoginBuilder;
-  private ParseUser user;
 
   @InjectView(R.id.btn_LoadData) Button btn_LoadData;
 
@@ -26,7 +26,21 @@ public class MainActivity extends BaseActivity {
     if (parseLoginBuilder == null) {
       parseLoginBuilder = new ParseLoginBuilder(MainActivity.this);
     }
-    startActivityForResult(parseLoginBuilder.build(), 0);
+
+  }
+
+  @Override
+  public void onAttachedToWindow() {
+    super.onAttachedToWindow();
+
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (ParseUser.getCurrentUser() == null)
+      startActivityForResult(parseLoginBuilder.build(), 0);
+    else this.navigator.navigateToRoomList(this);
   }
 
   @Override
